@@ -206,6 +206,7 @@
     <Content Include="Recetas.aspx" />
     <Content Include="RecetasMantenimiento.aspx" />
     <Content Include="CategoriasMantenimiento.aspx" />
+    <Content Include="wsChefChar.asmx" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
     <Content Include="Scripts\jquery-1.7.1.min.js" />
@@ -339,6 +340,10 @@
     </Compile>
     <Compile Include="CategoriasMantenimiento.aspx.designer.cs">
       <DependentUpon>CategoriasMantenimiento.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="wsChefChar.asmx.cs">
+      <DependentUpon>wsChefChar.asmx</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
