@@ -41,8 +41,11 @@ namespace Recetario
             if(e.Row.RowType == DataControlRowType.DataRow)
             {
                 var datos = (DataRowView)e.Row.DataItem;
+                var bytes = (byte[]) datos["Foto"];
+                var base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                
                 var img = (Image)e.Row.FindControl("imgFoto");
-                img.ImageUrl = datos["Foto"].ToString();
+                img.ImageUrl = "data:image/jpg;base64," + base64String;
             }
         }
     }

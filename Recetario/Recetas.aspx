@@ -34,6 +34,6 @@
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
     </asp:GridView>
-    <asp:SqlDataSource ID="sqlDSRecetas" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" SelectCommand="SELECT Recetas.IdReceta, Categorias.Categoria, Recetas.Nombre, Recetas.Inactivo, Recetas.Foto FROM Recetas INNER JOIN Categorias ON Categorias.IdCategoria = Recetas.IdCategoria WHERE (Recetas.Eliminado = 0)"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="sqlDSRecetas" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" SelectCommand="SELECT Recetas.IdReceta, Categorias.Categoria, Recetas.Nombre, Recetas.Inactivo, Fotos.Foto FROM Recetas INNER JOIN Categorias ON Categorias.IdCategoria = Recetas.IdCategoria INNER JOIN Fotos ON Recetas.IdReceta = Fotos.IdReceta WHERE (Recetas.Eliminado = 0)"></asp:SqlDataSource>
     <asp:Button ID="btnAgregarRecetaBotton" runat="server" Text="Nueva Receta" OnClick="btnAgregarRecetaBotton_Click" />
 </asp:Content>

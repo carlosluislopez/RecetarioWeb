@@ -6,17 +6,19 @@
     <table align="center" cellpadding="0" cellspacing="0" style="width: 60%;">
         <tr>
             <td valign="top">Nombre</td>
-            <td style="width: 5px;">&nbsp;</td>
-            <td>
+            <td style="width: 5px;" valign="top">&nbsp;</td>
+            <td valign="top">
                 <asp:TextBox ID="txtNombre" runat="server" MaxLength="50"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Campo Requerido" ControlToValidate="txtNombre" Display="Dynamic" SetFocusOnError="True" ValidationGroup="Recetas" ForeColor="#990000"></asp:RequiredFieldValidator>
             </td>
         </tr>
         <tr>
             <td valign="top">Categoria</td>
             <td style="width: 5px;">&nbsp;</td>
-            <td>
+            <td valign="top">
                 <asp:DropDownList ID="cboCategoria" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource2" DataTextField="Categoria" DataValueField="IdCategoria">
                 </asp:DropDownList>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Campo Requerido" ControlToValidate="cboCategoria" ForeColor="#990000" ValidationGroup="Receta" Display="Dynamic"></asp:RequiredFieldValidator>
                 <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" SelectCommand="SELECT [IdCategoria], [Categoria] FROM [Categorias] WHERE (([Eliminado] = @Eliminado) AND ([Inactivo] = @Inactivo))">
                     <SelectParameters>
                         <asp:Parameter DefaultValue="False" Name="Eliminado" Type="Boolean" />
@@ -31,6 +33,7 @@
             <td style="width: 5px;">&nbsp;</td>
             <td>
                 <asp:TextBox ID="txtDescripcion" runat="server" Rows="10" TextMode="MultiLine"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Campo Requerido" ControlToValidate="txtDescripcion" Display="Dynamic" SetFocusOnError="True" ValidationGroup="Recetas"></asp:RequiredFieldValidator>
             </td>
         </tr>
         
@@ -39,8 +42,9 @@
             <td style="width: 5px;">&nbsp;</td>
             <td>
                 <asp:FileUpload ID="fileFoto" runat="server" />
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator4" runat="server" ErrorMessage="Campo Requerido" ControlToValidate="fileFoto" Display="Dynamic" ForeColor="#990000" SetFocusOnError="True" ValidationGroup="Recetas"></asp:RequiredFieldValidator>
             &nbsp;<asp:Button ID="btnSubirImagen" runat="server" OnClick="btnSubirImagen_Click" Text="Subir" />
-               <br/><asp:Label ID="lblDireccion" runat="server"></asp:Label>
+               <br/><asp:Label ID="lblError" runat="server" Font-Bold="True" Font-Size="Small" ForeColor="#990000"></asp:Label>
             </td>
         </tr>
         
@@ -62,7 +66,7 @@
             <td valign="top" colspan="3" style="text-align: center;">
                 <asp:Button ID="btnGuardar" runat="server" Text="Guardar" OnClick="btnGuardar_Click" />
                 <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" OnClick="btnCancelar_Click" />
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" InsertCommand="INSERT INTO Recetas(IdCategoria, Nombre, Descripcion, Eliminado, Inactivo, Foto) VALUES (@IdCategoria, @Nombre, @Descripcion, @Eliminado, @Inactivo, @Foto)" SelectCommand="SELECT IdCategoria, Nombre, Descripcion, Inactivo, Foto FROM Recetas WHERE (IdReceta = @IdReceta) AND (Eliminado = @Eliminado)" UpdateCommand="UPDATE Recetas SET Nombre = @Nombre, Descripcion = @Descripcion, Eliminado = @Eliminado, Inactivo = @Inactivo, IdCategoria = @IdCategoria, Foto = @Foto WHERE (IdReceta = @IdReceta)">
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" InsertCommand="INSERT INTO Recetas(IdCategoria, Nombre, Descripcion, Eliminado, Inactivo, Foto) VALUES (@IdCategoria, @Nombre, @Descripcion, @Eliminado, @Inactivo, @Foto)" SelectCommand="SELECT Recetas.IdCategoria, Recetas.Nombre, Recetas.Descripcion, Recetas.Inactivo, Fotos.Foto FROM Recetas INNER JOIN Fotos ON Recetas.IdReceta = Fotos.IdReceta WHERE (Recetas.IdReceta = @IdReceta) AND (Recetas.Eliminado = @Eliminado)" UpdateCommand="UPDATE Recetas SET Nombre = @Nombre, Descripcion = @Descripcion, Eliminado = @Eliminado, Inactivo = @Inactivo, IdCategoria = @IdCategoria, Foto = @Foto WHERE (IdReceta = @IdReceta)">
                     <InsertParameters>
                         <asp:ControlParameter ControlID="cboCategoria" Name="IdCategoria" PropertyName="SelectedValue" />
                         <asp:ControlParameter ControlID="txtNombre" Name="Nombre" PropertyName="Text" />
