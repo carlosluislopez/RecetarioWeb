@@ -3,7 +3,7 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <asp:Button ID="btnAgregarRecetaTop" runat="server" Text="Nueva Receta" OnClick="btnAgregarRecetaTop_Click" />
-    <asp:GridView ID="grvRecetas" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="IdReceta" DataSourceID="sqlDSRecetas" ForeColor="#333333" GridLines="None" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" OnRowDataBound="grvRecetas_RowDataBound">
+    <asp:GridView ID="grvRecetas" runat="server" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" CellPadding="4" DataKeyNames="IdReceta" DataSourceID="sqlDSRecetas" ForeColor="#333333" GridLines="None" OnSelectedIndexChanged="GridView1_SelectedIndexChanged" OnRowDataBound="grvRecetas_RowDataBound" PageSize="2">
         <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
         <Columns>
             <asp:CommandField ShowSelectButton="True" />
@@ -21,7 +21,6 @@
                     <asp:Image ID="imgFoto" runat="server" Height="100px" ImageAlign="AbsMiddle" Width="100px" />
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:CheckBoxField DataField="Inactivo" HeaderText="Inactivo" SortExpression="Inactivo" />
         </Columns>
         <EditRowStyle BackColor="#999999" />
         <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -34,6 +33,10 @@
         <SortedDescendingCellStyle BackColor="#FFFDF8" />
         <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
     </asp:GridView>
-    <asp:SqlDataSource ID="sqlDSRecetas" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" SelectCommand="SELECT Recetas.IdReceta, Categorias.Categoria, Recetas.Nombre, Recetas.Inactivo, Fotos.Foto FROM Recetas INNER JOIN Categorias ON Categorias.IdCategoria = Recetas.IdCategoria INNER JOIN Fotos ON Recetas.IdReceta = Fotos.IdReceta WHERE (Recetas.Eliminado = 0)"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="sqlDSRecetas" runat="server" ConnectionString="<%$ ConnectionStrings:RecetarioConnectionString %>" SelectCommand="SP_BuscarReceta" SelectCommandType="StoredProcedure">
+        <SelectParameters>
+            <asp:QueryStringParameter Name="Busqueda" QueryStringField="Search" Type="String" DefaultValue="" />
+        </SelectParameters>
+    </asp:SqlDataSource>
     <asp:Button ID="btnAgregarRecetaBotton" runat="server" Text="Nueva Receta" OnClick="btnAgregarRecetaBotton_Click" />
 </asp:Content>

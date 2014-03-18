@@ -7,18 +7,18 @@ using System.Web.UI.WebControls;
 
 namespace Recetario.Account
 {
-    public partial class Login : Page
+    public partial class Login : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RegisterHyperLink.NavigateUrl = "Register.aspx";
-            OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
 
-            var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
-            if (!String.IsNullOrEmpty(returnUrl))
-            {
-                RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
-            }
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            Page.Validate("login");
+            if(!Page.IsValid)
+                return;
         }
     }
 }

@@ -1,47 +1,77 @@
-﻿<%@ Page Title="Log in" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Recetario.Account.Login" %>
-<%@ Register Src="~/Account/OpenAuthProviders.ascx" TagPrefix="uc" TagName="OpenAuthProviders" %>
-
-<asp:Content runat="server" ID="BodyContent" ContentPlaceHolderID="MainContent">
-    <hgroup class="title">
-        <h1><%: Title %>.</h1>
-    </hgroup>
-    <section id="loginForm">
-        <h2>Use a local account to log in.</h2>
-        <asp:Login runat="server" ViewStateMode="Disabled" RenderOuterTable="false">
-            <LayoutTemplate>
-                <p class="validation-summary-errors">
-                    <asp:Literal runat="server" ID="FailureText" />
-                </p>
-                <fieldset>
-                    <legend>Log in Form</legend>
-                    <ol>
-                        <li>
-                            <asp:Label runat="server" AssociatedControlID="UserName">User name</asp:Label>
-                            <asp:TextBox runat="server" ID="UserName" />
-                            <asp:RequiredFieldValidator runat="server" ControlToValidate="UserName" CssClass="field-validation-error" ErrorMessage="The user name field is required." />
-                        </li>
-                        <li>
-                            <asp:Label runat="server" AssociatedControlID="Password">Password</asp:Label>
-                            <asp:TextBox runat="server" ID="Password" TextMode="Password" />
-                            <asp:RequiredFieldValidator runat="server" ControlToValidate="Password" CssClass="field-validation-error" ErrorMessage="The password field is required." />
-                        </li>
-                        <li>
-                            <asp:CheckBox runat="server" ID="RememberMe" />
-                            <asp:Label runat="server" AssociatedControlID="RememberMe" CssClass="checkbox">Remember me?</asp:Label>
-                        </li>
-                    </ol>
-                    <asp:Button runat="server" CommandName="Login" Text="Log in" />
-                </fieldset>
-            </LayoutTemplate>
-        </asp:Login>
-        <p>
-            <asp:HyperLink runat="server" ID="RegisterHyperLink" ViewStateMode="Disabled">Register</asp:HyperLink>
-            if you don't have an account.
-        </p>
-    </section>
-
-    <section id="socialLoginForm">
-        <h2>Use another service to log in.</h2>
-        <uc:OpenAuthProviders runat="server" ID="OpenAuthLogin" />
-    </section>
+﻿<%@ Page Title="Recetario - Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Recetario.Account.Login" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
+    <style type="text/css">
+        .tabla
+        {
+            width: 500px;
+        }
+        .etiqueta
+        {
+            width: 150px;
+            text-align: right;
+            padding: 0px;
+            margin: 0px;
+        }
+        .espacio
+        {
+            width: 10px;
+            padding: 0px;
+            margin: 0px;
+        }
+        .textos
+        {
+            padding: 0px;
+            margin: 0px;
+        }
+        .auto-style3
+        {
+            width: 150px;
+            text-align: right;
+            padding: 0px;
+            margin: 0px;
+            height: 64px;
+        }
+        .auto-style4
+        {
+            height: 64px;
+        }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="MainContent" runat="server">
+    <table align="center" cellpadding="0" cellspacing="0" class="tabla">
+        <tr>
+            <td class="etiqueta">
+                <asp:Label ID="Label1" runat="server" Text="Usuario"></asp:Label>
+            </td>
+            <td class="espacio">&nbsp;</td>
+            <td class="textos">
+                <asp:TextBox ID="txtUser" runat="server" Width="256px" ValidationGroup="login"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtUser" Display="Dynamic" ErrorMessage="Campo Requerido" ForeColor="#990000" SetFocusOnError="True" ValidationGroup="login"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td class="auto-style3">
+                <asp:Label ID="Label2" runat="server" Text="Contrasena"></asp:Label>
+            </td>
+            <td class="auto-style4"></td>
+            <td class="auto-style4">
+                <asp:TextBox ID="txtPass" runat="server" TextMode="Password" Width="256px" ValidationGroup="login"></asp:TextBox>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="txtPass" ErrorMessage="Campo Requerido" ForeColor="#990000" SetFocusOnError="True" ValidationGroup="login"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>
+                <asp:HyperLink ID="HyperLink1" runat="server">Olvide mi Contrasena</asp:HyperLink>
+                <br/>
+                <asp:HyperLink ID="HyperLink2" runat="server">Registrarme</asp:HyperLink>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" align="center">
+                <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" />
+            </td>
+        </tr>
+    </table>
 </asp:Content>

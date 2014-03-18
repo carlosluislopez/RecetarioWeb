@@ -14,14 +14,18 @@ namespace Recetario
     /// <summary>
     /// Summary description for wsChefChar
     /// </summary>
-    [WebService(Namespace = "http://tempuri.org/")]
+    //[WebService(Namespace = "http://tempuri.org/")]
     [WebServiceBinding(ConformsTo = WsiProfiles.BasicProfile1_1)]
     [System.ComponentModel.ToolboxItem(false)]
     // To allow this Web Service to be called from script, using ASP.NET AJAX, uncomment the following line. 
     // [System.Web.Script.Services.ScriptService]
+
+    [WebService(Namespace = "http://tempuri.org/",
+    Description = "WebService para la aplicacion de ChefChar",
+    Name = "ChefCharWebService")]
+
     public class wsChefChar : System.Web.Services.WebService
     {
-
         [WebMethod]
         public string HelloWorld()
         {
@@ -57,7 +61,7 @@ namespace Recetario
             if (errorMessage == "" && dbConnection != null)
             {
                 // Build an insert command
-                const string sql = "exec dbo.SP_BuscarReceta ''";
+                const string sql = "SP_BuscarReceta";
                 var getCustomerCmd = new SqlCommand(sql, dbConnection);
                 getCustomerCmd.CommandType = CommandType.StoredProcedure;
                 getCustomerCmd.Parameters.Clear();
@@ -67,8 +71,16 @@ namespace Recetario
                 {
                     var custDa = new SqlDataAdapter();
                     custDa.SelectCommand = getCustomerCmd;
-                    var custDs = new DataSet();
-                    custDa.Fill(custDs, "Recetas");
+                    var custDs = new DataSet("Recetas");
+                    custDa.Fill(custDs, "Receta");
+
+                    //var dt = new DataTable("Recetas");
+                    //dt.Columns.Add("Id", typeof (Int32));
+                    //dt.Columns.Add("Nombre", typeof(String));
+                    //dt.Columns.Add("Foto", typeof(byte[]));
+
+                    //custDs.Tables.Add(dt);
+
                     myDatas.LoadXml(custDs.GetXml());
                     dbConnection.Close();
 
@@ -85,5 +97,50 @@ namespace Recetario
             }
             return myDatas;
         }
+
+        [WebMethod]
+        public string SearchRecipiesString(string search)
+        {
+            return SearchRecipies(search).InnerXml.ToString();
+        }
+
+        [WebMethod]
+        public Recipie getRecipie()
+        {
+            return new Recipie(1, "Pollo", null);
+        }
+
+        [WebMethod]
+        public Recipie[] getRecipieCollection()
+        {
+            var recetas = new Recipie[]
+                                    {
+                                        new Recipie(1, "Pollo", null),
+                                        new Recipie(2, "Res", null),
+                                        new Recipie(3, "Sopa de Res", null),
+                                        new Recipie(4, "Flan de Chocolate", null),
+                                    };
+            return recetas;
+        }
+    }
+
+    public class Recipie
+    {
+        public int ID;
+        public string Nombre;
+        public byte[] Foto;
+
+        public Recipie()
+        {
+            
+        }
+
+        public Recipie(int id, string nombre, byte[] foto)
+        {
+            this.ID = id;
+            this.Nombre = nombre;
+            this.Foto = foto;
+        }
+
     }
 }

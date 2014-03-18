@@ -69,5 +69,13 @@ namespace Recetario
         {
 
         }
+
+        protected void btnBuscar_Click(object sender, EventArgs e)
+        {
+            if(txtBuscador.Text == "")
+                return;
+
+            Response.Redirect(string.Format("~/Recetas.aspx?Search={0}", txtBuscador.Text), true); 
+        }   
     }
 }
