@@ -123,6 +123,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Account\Login.aspx" />
+    <Content Include="App_Data\UploadedFiles\pollo-asado.jpg" />
     <Content Include="Categorias.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\Site.css" />
@@ -315,7 +316,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
     <Folder Include="temp\" />
   </ItemGroup>
   <ItemGroup>

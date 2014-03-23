@@ -138,7 +138,7 @@ namespace Recetario
                 return;
 
             var fileName = Path.GetFileName(fileFoto.FileName);
-            var serverFolderPath = Server.MapPath("~/App_Data/UploadedFiles/");
+            var serverFolderPath = Server.MapPath("~/Images/");
             var directoryInfo = new DirectoryInfo(serverFolderPath);
 
             if (!directoryInfo.Exists)
@@ -151,15 +151,15 @@ namespace Recetario
             try
             {
                 fileFoto.SaveAs(path);
-                this.imgFoto.ImageUrl = path;
+                this.imgFoto.ImageUrl = "~/Images/" + fileFoto.FileName;
                 this.lblError.Text = this.imgFoto.ImageUrl;
             }catch(Exception ex)
             {
                 this.lblError.Text = ex.Message;
             }
 
-            this.imgFoto.ImageUrl = path;
-            this.lblError.Text = this.imgFoto.ImageUrl;
+            //this.imgFoto.ImageUrl = "~/Images/" + fileFoto.FileName;
+            //this.lblError.Text = this.imgFoto.ImageUrl;
 
             //var fs = fileFoto.PostedFile.InputStream;
             //var br = new BinaryReader(fs);
