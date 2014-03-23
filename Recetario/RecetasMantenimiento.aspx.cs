@@ -137,12 +137,25 @@ namespace Recetario
             if(!this.fileFoto.HasFile)
                 return;
 
-            var fs = fileFoto.PostedFile.InputStream;
-            var br = new BinaryReader(fs);
-            var bytes = br.ReadBytes((Int32)fs.Length);
-            var base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
-            imgFoto.ImageUrl = "data:image/jpg;base64," + base64String;
-            imgFoto.Visible = true;
+            var fileName = Path.GetFileName(fileFoto.FileName);
+            var serverFolderPath = Server.MapPath("~/App_Data/UploadedFiles/");
+            var directoryInfo = new DirectoryInfo(serverFolderPath);
+
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+
+            var path = Path.Combine(serverFolderPath, fileName);
+
+            fileFoto.SaveAs(path);
+
+            //var fs = fileFoto.PostedFile.InputStream;
+            //var br = new BinaryReader(fs);
+            //var bytes = br.ReadBytes((Int32)fs.Length);
+            //var base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+            //imgFoto.ImageUrl = "data:image/jpg;base64," + base64String;
+            //imgFoto.Visible = true;
 
             
 
