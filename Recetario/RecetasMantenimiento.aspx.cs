@@ -148,7 +148,18 @@ namespace Recetario
 
             var path = Path.Combine(serverFolderPath, fileName);
 
-            fileFoto.SaveAs(path);
+            try
+            {
+                fileFoto.SaveAs(path);
+                this.imgFoto.ImageUrl = path;
+                this.lblError.Text = this.imgFoto.ImageUrl;
+            }catch(Exception ex)
+            {
+                this.lblError.Text = ex.Message;
+            }
+
+            this.imgFoto.ImageUrl = path;
+            this.lblError.Text = this.imgFoto.ImageUrl;
 
             //var fs = fileFoto.PostedFile.InputStream;
             //var br = new BinaryReader(fs);
