@@ -73,6 +73,33 @@ namespace Recetario
                 return;
 
             var guardo = true;
+
+            if (!this.fileFoto.HasFile)
+                return;
+
+            var fileName = Path.GetFileName(fileFoto.FileName);
+            var serverFolderPath = Server.MapPath("~/Images/");
+            var directoryInfo = new DirectoryInfo(serverFolderPath);
+
+            if (!directoryInfo.Exists)
+            {
+                directoryInfo.Create();
+            }
+
+            var path = Path.Combine(serverFolderPath, fileName);
+
+            try
+            {
+                fileFoto.SaveAs(path);
+                this.imgFoto.ImageUrl = "~/Images/" + fileFoto.FileName;
+                this.lblError.Text = this.imgFoto.ImageUrl;
+            }
+            catch (Exception ex)
+            {
+                this.lblError.Text = ex.Message;
+                return;
+            }
+
             if (!this.Page.ClientQueryString.Any())
             {
                 guardo = InsertReceta();
@@ -232,7 +259,7 @@ namespace Recetario
 
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@IdReceta", idReceta);
-                cmd.Parameters.AddWithValue("@Foto", bytes);
+                cmd.Parameters.AddWithValue("@URL", this.lblError.Text);
                 cmd.ExecuteNonQuery();
                 tran.Commit();
             }

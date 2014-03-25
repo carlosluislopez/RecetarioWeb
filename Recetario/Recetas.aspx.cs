@@ -12,6 +12,10 @@ namespace Recetario
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!this.Page.ClientQueryString.Any())
+            {
+                this.sqlDSRecetas.DataBind();
+            }
 
         }
 
@@ -41,11 +45,12 @@ namespace Recetario
             if(e.Row.RowType == DataControlRowType.DataRow)
             {
                 var datos = (DataRowView)e.Row.DataItem;
-                var bytes = (byte[]) datos["Foto"];
-                var base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
+                //var bytes = (byte[]) datos["Foto"];
+                //var base64String = Convert.ToBase64String(bytes, 0, bytes.Length);
                 
                 var img = (Image)e.Row.FindControl("imgFoto");
-                img.ImageUrl = "data:image/jpg;base64," + base64String;
+                //img.ImageUrl = "data:image/jpg;base64," + base64String;
+                img.ImageUrl = datos["Foto"].ToString();
             }
         }
     }
