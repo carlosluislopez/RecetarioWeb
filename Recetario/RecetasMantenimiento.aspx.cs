@@ -22,15 +22,13 @@ namespace Recetario
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Page.IsPostBack)
-                return;
-
-            //Session.Add("CantImages", 0);
-
             if (Session["IdUsuario"] == null)
             {
-                Session["IdUsuario"] = 1;
+                Response.Redirect("~/Account/Login.aspx", true);
             }
+
+            if (Page.IsPostBack)
+                return;
 
             if (!this.Page.ClientQueryString.Any())
             {

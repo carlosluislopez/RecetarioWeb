@@ -60,12 +60,15 @@
             </td>
         </tr>
         <tr>
+            <td colspan="3">
+                <asp:Label ID="lblError" runat="server" ForeColor="#990000"></asp:Label>
+            </td>
+        </tr>
+        <tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td>
-                <asp:HyperLink ID="HyperLink1" runat="server">Olvide mi Contrasena</asp:HyperLink>
-                <br/>
-                <asp:HyperLink ID="HyperLink2" runat="server">Registrarme</asp:HyperLink>
+                <asp:HyperLink ID="HyperLink2" runat="server" NavigateUrl="~/Account/Register.aspx">Registrarme</asp:HyperLink>
             </td>
         </tr>
         <tr>

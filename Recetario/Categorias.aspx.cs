@@ -11,7 +11,10 @@ namespace Recetario
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["IdUsuario"] == null)
+            {
+                Response.Redirect("~/Account/Login.aspx", true);
+            }
         }
 
         protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)

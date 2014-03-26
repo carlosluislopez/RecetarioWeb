@@ -12,6 +12,11 @@ namespace Recetario
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["IdUsuario"] == null)
+            {
+                Response.Redirect("~/Account/Login.aspx", true);
+            }
+
             if (!this.Page.ClientQueryString.Any())
             {
                 this.sqlDSRecetas.DataBind();
@@ -50,7 +55,7 @@ namespace Recetario
                 
                 var img = (Image)e.Row.FindControl("imgFoto");
                 //img.ImageUrl = "data:image/jpg;base64," + base64String;
-                img.ImageUrl = datos["Foto"].ToString();
+                img.ImageUrl = datos["Foto"].ToString(); 
             }
         }
     }

@@ -13,6 +13,11 @@ namespace Recetario
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["IdUsuario"] == null)
+            {
+                Response.Redirect("~/Account/Login.aspx", true);
+            }
+
             if(Page.IsPostBack)
                 return;
 
