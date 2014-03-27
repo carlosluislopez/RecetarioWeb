@@ -82,9 +82,9 @@ namespace Recetario.Account
                 Session["IdUsuario"] = userDt.Rows[0]["IdUsuario"];
             }
 
-            if (Session["Usuario"] == null)
+            if (Session["UserName"] == null)
             {
-                Session["Usuario"] = userDt.Rows[0]["Usuario"];
+                Session["UserName"] = userDt.Rows[0]["UserName"];
             }
 
             if (Session["NombreCompleto"] == null)

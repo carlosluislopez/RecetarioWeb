@@ -27,19 +27,7 @@ namespace Recetario
     public class wsChefChar : System.Web.Services.WebService
     {
         [WebMethod]
-        public string HelloWorld()
-        {
-            return "Hello World";
-        }
-
-        [WebMethod]
-        public int Add(int a, int b)
-        {
-            return a + b;
-        }
-
-        [WebMethod]
-        public XmlDocument SearchRecipies(string search)
+        public string SearchRecipies(string search)
         {
             var errorMessage = "";
             var myDatas = new XmlDocument();
@@ -60,26 +48,18 @@ namespace Recetario
             }
             if (errorMessage == "" && dbConnection != null)
             {
-                // Build an insert command
                 const string sql = "SP_BuscarReceta";
-                var getCustomerCmd = new SqlCommand(sql, dbConnection);
-                getCustomerCmd.CommandType = CommandType.StoredProcedure;
-                getCustomerCmd.Parameters.Clear();
-                getCustomerCmd.Parameters.AddWithValue("@Busqueda", search);
+                var cmd = new SqlCommand(sql, dbConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@Busqueda", search);
 
                 try
                 {
-                    var custDa = new SqlDataAdapter();
-                    custDa.SelectCommand = getCustomerCmd;
+                    var oData = new SqlDataAdapter();
+                    oData.SelectCommand = cmd;
                     var custDs = new DataSet("Recetas");
-                    custDa.Fill(custDs, "Receta");
-
-                    //var dt = new DataTable("Recetas");
-                    //dt.Columns.Add("Id", typeof (Int32));
-                    //dt.Columns.Add("Nombre", typeof(String));
-                    //dt.Columns.Add("Foto", typeof(byte[]));
-
-                    //custDs.Tables.Add(dt);
+                    oData.Fill(custDs, "Receta");
 
                     myDatas.LoadXml(custDs.GetXml());
                     dbConnection.Close();
@@ -95,51 +75,157 @@ namespace Recetario
                     dbConnection.Dispose();
                 }
             }
-            return myDatas;
-        }
-
-        [WebMethod]
-        public string SearchRecipiesString(string search)
-        {
-            return SearchRecipies(search).InnerXml.ToString();
-        }
-
-        [WebMethod]
-        public Recipie getRecipie()
-        {
-            return new Recipie(1, "Pollo", null);
-        }
-
-        [WebMethod]
-        public Recipie[] getRecipieCollection()
-        {
-            var recetas = new Recipie[]
-                                    {
-                                        new Recipie(1, "Pollo", null),
-                                        new Recipie(2, "Res", null),
-                                        new Recipie(3, "Sopa de Res", null),
-                                        new Recipie(4, "Flan de Chocolate", null),
-                                    };
-            return recetas;
-        }
-    }
-
-    public class Recipie
-    {
-        public int ID;
-        public string Nombre;
-        public byte[] Foto;
-
-        public Recipie()
-        {
             
+            if (myDatas == null)
+                return "";
+            
+            return myDatas.InnerXml;
         }
 
-        public Recipie(int id, string nombre, byte[] foto)
+        //[WebMethod]
+        //public string SearchRecipiesString(string search)
+        //{
+        //    return SearchRecipies(search).InnerXml;
+        //}
+
+        [WebMethod]
+        public string Login(string usuario, string pass)
         {
-            this.ID = id;
-            this.Nombre = nombre;
-            this.Foto = foto;
+            var errorMessage = "";
+            var myDatas = new XmlDocument();
+
+            var connectionString = WebConfigurationManager.ConnectionStrings["RecetarioConnectionString"].ConnectionString;
+            SqlConnection dbConnection = null;
+            
+            try
+            {
+                dbConnection = new SqlConnection(connectionString);
+                dbConnection.Open();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+            }
+            if (errorMessage == "" && dbConnection != null)
+            {
+                const string sql = "SP_Login";
+                var cmd = new SqlCommand(sql, dbConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@Usuario", usuario);
+                cmd.Parameters.AddWithValue("@Pass", pass);
+
+                try
+                {
+                    var oData = new SqlDataAdapter();
+                    oData.SelectCommand = cmd;
+                    var oset = new DataSet("Usuarios");
+                    oData.Fill(oset, "Usuario");
+
+                    if(oset.Tables.Count > 1)
+                    {
+                        if(oset.Tables[0].Columns.Contains("Foto"))
+                        {
+                            oset.Tables[0].Columns.Remove(oset.Tables[0].Columns["Foto"]);
+                        }
+                    }
+
+                    myDatas.LoadXml(oset.GetXml());
+                    dbConnection.Close();
+
+                }
+                catch (System.Exception ex)
+                {
+                    errorMessage = ex.Message;
+
+                }
+                finally
+                {
+                    dbConnection.Dispose();
+                }
+            }
+            return myDatas.InnerXml;
+        }
+
+        [WebMethod]
+        public int Register(string usuario, string pass, string email, string nombre)
+        {
+            var resultado = 0;
+
+            var connectionString = WebConfigurationManager.ConnectionStrings["RecetarioConnectionString"].ConnectionString;
+            SqlConnection dbConnection = null;
+
+            try
+            {
+                dbConnection = new SqlConnection(connectionString);
+                dbConnection.Open();
+            }
+            catch (Exception ex) { }
+            
+            if (dbConnection != null)
+            {
+                const string sql = "SP_CrearUsuarios";
+                var cmd = new SqlCommand(sql, dbConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@Usuario", usuario);
+                cmd.Parameters.AddWithValue("@Pass", pass);
+                cmd.Parameters.AddWithValue("@Correo", email);
+                cmd.Parameters.AddWithValue("@NombreCompleto", nombre);
+
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                    dbConnection.Close();
+                    resultado = 1;
+                }
+                catch (System.Exception ex) { }
+                finally
+                {
+                    dbConnection.Dispose();
+                }
+            }
+            return resultado;
+        }
+
+        [WebMethod]
+        public float Rating(int IdReceta, int IdUsuario, float rating)
+        {
+            float resultado = 0;
+
+            var connectionString = WebConfigurationManager.ConnectionStrings["RecetarioConnectionString"].ConnectionString;
+            SqlConnection dbConnection = null;
+
+            try
+            {
+                dbConnection = new SqlConnection(connectionString);
+                dbConnection.Open();
+            }
+            catch (Exception ex) { }
+
+            if (dbConnection != null)
+            {
+                const string sql = "SP_Rating";
+                var cmd = new SqlCommand(sql, dbConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("@IdReceta", IdReceta);
+                cmd.Parameters.AddWithValue("@IdUsuario", IdUsuario);
+                cmd.Parameters.AddWithValue("@Rating", rating);
+
+                try
+                {
+                    resultado = float.Parse(cmd.ExecuteScalar().ToString());
+                    dbConnection.Close();
+                    resultado = 1;
+                }
+                catch (System.Exception ex) { }
+                finally
+                {
+                    dbConnection.Dispose();
+                }
+            }
+            return resultado;
         }
 
     }

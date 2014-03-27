@@ -206,6 +206,7 @@
     <Content Include="Recetas.aspx" />
     <Content Include="RecetasMantenimiento.aspx" />
     <Content Include="CategoriasMantenimiento.aspx" />
+    <Content Include="RecetasViewer.aspx" />
     <Content Include="wsChefChar.asmx" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
@@ -298,6 +299,13 @@
     </Compile>
     <Compile Include="Recetas.aspx.designer.cs">
       <DependentUpon>Recetas.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="RecetasViewer.aspx.cs">
+      <DependentUpon>RecetasViewer.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RecetasViewer.aspx.designer.cs">
+      <DependentUpon>RecetasViewer.aspx</DependentUpon>
     </Compile>
     <Compile Include="Site.Master.cs">
       <DependentUpon>Site.Master</DependentUpon>

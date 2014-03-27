@@ -97,8 +97,8 @@
                         </table>
                     </td>
                     <td>&nbsp;</td>
-                    <td><a id="registerLink" runat="server" href="~/Account/Register.aspx"><asp:Image ID="Image4" runat="server" ImageUrl="~/Images/signUp.png" /></a></td>
-                    <td><a id="loginLink" runat="server" href="~/Account/Login.aspx"><asp:Image ID="Image3" runat="server" ImageUrl="~/Images/login.png" /></a></td>
+                    <td><asp:ImageButton ID="btnSignUp" runat="server" ImageUrl="~/Images/signUp.png" PostBackUrl="~/Account/Register.aspx" /></td>
+                    <td><asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="~/Images/login.png" PostBackUrl="~/Account/Login.aspx" /></td>
                 </tr>
             </table>
         </div>

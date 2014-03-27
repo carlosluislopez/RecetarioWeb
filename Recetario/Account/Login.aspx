@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Recetario - Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Recetario.Account.Login" %>
+﻿<%@ Page Title="Chef Char | Login" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Recetario.Account.Login" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
     <style type="text/css">
         .tabla

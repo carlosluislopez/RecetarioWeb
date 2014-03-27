@@ -83,6 +83,7 @@ h4 {
 
 h5, h6 {
     font-size: 1em;
+    font-size: 1em;
 }
 
     h5 a:link, h5 a:visited, h5 a:active {
@@ -95,6 +96,7 @@ h5, h6 {
 .content-wrapper {
     margin: 0 auto;
     max-width: 960px;
+    width: 960px;
 }
 
 #body {
